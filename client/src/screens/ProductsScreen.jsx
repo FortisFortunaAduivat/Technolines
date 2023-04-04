@@ -1,8 +1,24 @@
 import { Center, Wrap, WrapItem } from "@chakra-ui/react";
-import { products } from "../products";
 import ProductCard from "../components/ProductCard";
+import { useDispatch, useSelector } from 'react-redux';
+import { getProducts } from '../redux/actions/productActions'
+import { useEffect } from 'react';
 
 const ProductScreen = () => {
+
+    const dispatch = useDispatch();
+
+     	//Dispatch is a global variable that we can use to dispatch actions.
+    //Here we are using it to add products to our store.
+    const productList = useSelector((state) => state.products)
+    const { loading, error, products } = productList;
+
+//Only run this code when the page first loads.
+    useEffect(() => {
+        dispatch(getProducts())
+    }, [dispatch]);
+
+
     return (
         <Wrap spacing="30px" justify="center" minHeight="100vh">
             {products.map((product) => (
